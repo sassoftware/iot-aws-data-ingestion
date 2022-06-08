@@ -1,0 +1,261 @@
+[
+    {
+        "id": "5bb10ec7774d5337",
+        "type": "tab",
+        "label": "FreezerDataAWS",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "7690cf9c92391578",
+        "type": "mqtt out",
+        "z": "5bb10ec7774d5337",
+        "name": "Write to Freezers topic",
+        "topic": "freezers",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "383960187093b801",
+        "x": 780,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "7551870a8ca3f9f8",
+        "type": "function",
+        "z": "5bb10ec7774d5337",
+        "name": "Generate Freezer Data",
+        "func": "dt=msg.payload\nmsg.payload = {\"timestamp\": dt, \"temperature\": 90,\"humidity\": 65.2};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 200,
+        "wires": [
+            [
+                "950dfbad3671ab1b",
+                "d37b2b002af5a311"
+            ]
+        ]
+    },
+    {
+        "id": "831bc82a4a0e8bc5",
+        "type": "inject",
+        "z": "5bb10ec7774d5337",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 200,
+        "y": 200,
+        "wires": [
+            [
+                "7551870a8ca3f9f8"
+            ]
+        ]
+    },
+    {
+        "id": "d37b2b002af5a311",
+        "type": "debug",
+        "z": "5bb10ec7774d5337",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "4033819dc636533f",
+        "type": "AWS Kinesis",
+        "z": "5bb10ec7774d5337",
+        "aws": "886d4be75c7d6e31",
+        "operation": "PutRecord",
+        "StreamName": "freezer_data",
+        "Tags": "",
+        "ShardCount": "",
+        "RetentionPeriodHours": "",
+        "ShardLevelMetrics": "",
+        "ShardIterator": "",
+        "ShardId": "",
+        "ShardIteratorType": "",
+        "StreamARN": "",
+        "ShardToMerge": "",
+        "AdjacentShardToMerge": "",
+        "Data": "msg.Data",
+        "PartitionKey": "Whatever",
+        "Records": "",
+        "ConsumerName": "",
+        "TagKeys": "",
+        "ShardToSplit": "",
+        "NewStartingHashKey": "",
+        "EncryptionType": "",
+        "KeyId": "",
+        "TargetShardCount": "",
+        "ScalingType": "",
+        "name": "Generate Freezer data",
+        "x": 620,
+        "y": 360,
+        "wires": [
+            [
+                "d37b2b002af5a311"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "ce3513d8ecf9b922",
+        "type": "inject",
+        "z": "5bb10ec7774d5337",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 300,
+        "wires": [
+            [
+                "91a0e27bed9b31d6"
+            ]
+        ]
+    },
+    {
+        "id": "91a0e27bed9b31d6",
+        "type": "function",
+        "z": "5bb10ec7774d5337",
+        "name": "",
+        "func": "dt=msg.payload\n\nmsg.Data = {\"timestamp\": dt, \"temperature\": 30,\"humidity\": 25.2};\n/* msg.payload = {\"timestamp\": dt, \"temperature\": 30,\"humidity\": 25.2};  */ \n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 400,
+        "wires": [
+            [
+                "82a193d789aabca4"
+            ]
+        ]
+    },
+    {
+        "id": "82a193d789aabca4",
+        "type": "json",
+        "z": "5bb10ec7774d5337",
+        "name": "",
+        "property": "Data",
+        "action": "str",
+        "pretty": true,
+        "x": 410,
+        "y": 300,
+        "wires": [
+            [
+                "4033819dc636533f"
+            ]
+        ]
+    },
+    {
+        "id": "950dfbad3671ab1b",
+        "type": "json",
+        "z": "5bb10ec7774d5337",
+        "name": "",
+        "property": "payload",
+        "action": "str",
+        "pretty": true,
+        "x": 590,
+        "y": 100,
+        "wires": [
+            [
+                "7690cf9c92391578"
+            ]
+        ]
+    },
+    {
+        "id": "383960187093b801",
+        "type": "mqtt-broker",
+        "name": "AWSIoTCore",
+        "broker": "a3dqtvfafxfwwi-ats.iot.us-east-1.amazonaws.com",
+        "port": "8883",
+        "tls": "76294740e08f581a",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "886d4be75c7d6e31",
+        "type": "amazon config",
+        "name": "AWS",
+        "region": "us-east-1",
+        "proxyRequired": false,
+        "proxy": ""
+    },
+    {
+        "id": "76294740e08f581a",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "c6b2e9996aa0132cd9d841b077123f6672dc679d95c0d71c8210a34c58425485-certificate.pem.crt",
+        "keyname": "c6b2e9996aa0132cd9d841b077123f6672dc679d95c0d71c8210a34c58425485-private.pem.key",
+        "caname": "AmazonRootCA1.pem",
+        "servername": "",
+        "verifyservercert": true,
+        "alpnprotocol": ""
+    }
+]

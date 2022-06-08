@@ -1,0 +1,52 @@
+<project name="readkinesis2" threads="1" pubsub="auto" heartbeat-interval="1">
+  <metadata>
+    <meta id="studioUploadedBy">totuni</meta>
+    <meta id="studioUploaded">1649939499226</meta>
+    <meta id="studioModifiedBy">totuni</meta>
+    <meta id="studioModified">1650404017307</meta>
+    <meta id="layout">{"cq1":{"Functional":{"x":-350,"y":-275},"Source":{"x":-350,"y":-465}}}</meta>
+  </metadata>
+  <contqueries>
+    <contquery name="cq1">
+      <windows>
+        <window-source index="pi_EMPTY" insert-only="true" autogen-key="true" name="Source">
+          <schema>
+            <fields>
+              <field name="New_Field_1" type="int64" key="true"/>
+              <field name="timestamp" type="int64"/>
+              <field name="temperature" type="double"/>
+              <field name="humidity" type="double"/>
+            </fields>
+          </schema>
+          <connectors>
+            <connector class="kinesis" name="New_Connector_1">
+              <properties>
+                <property name="type"><![CDATA[pub]]></property>
+                <property name="awsaccesskeyid"><![CDATA[ASIAULLADDP7LMXFFFFF]]></property>
+                <property name="awssecretkey"><![CDATA[FFFFFW4aWWTNC5VJUql8BNlfThJuEEBWl4dgTTXv]]></property>
+                <property name="awssessiontoken"><![CDATA[DummyKeyZ2luX2VjEEwaCXVzLWVhc3QtMSJIMEYCIQCd3gFiAkCJDC8tgysbSEisdkkabFU7C/PjoYOCuaDuGAIhAIailMtHKTD+IFwqqx3c//HNJh4t1LFdRMmVxFwjQBT3KvQBCPX//////////wEQARoMMjk5MjM4NjI4MzUwIgzeiGwpN0CK/A7eM6cqyAE+Hc6BER4L28Lx+yOqMZRqyC4mikIIteMwc48UbOLeFg7+rz3g/i4sX868TGfMoZW4tYxSExscLtS0TiKCXVDx4UXp4T8bX60eWzbuDAEM+9LVmkHlBoPT3eAKU/7tqa8vfAJi2RR33KjDVzKD434PsdGu/wlJ8BrEVc3vcrEw/iv7Nn708Jk6NnYbZoUGLWaIFPrKOBSk1pqcioP7K0jSEFgNu1wv1GCzGRF/I0d5m0KEtmcXoQi3tqQyw0QnPQT0VieNfgsSwDDoofySBjqXAeJJxEXJyHc2JtD+SsEmq87SoKVrYxLS1f14HguGUM+XFcwxOr+NZ9RlMKlF9jhvk3nnx02ZShLj88aKj64pwWHdxbrrtAa/Uw81dFjRE0EqBgZcxPjVgUpRpapvAGU7PS3YZcst8FIMwHKH/zUIUaR3guydl9XI+cKBQsSvO7AiYmEnU3y+6VKd2AUj3gTVuLNcVem0sA4=]]></property>
+                <property name="kinesistype"><![CDATA[json]]></property>
+                <property name="streamname"><![CDATA[freezer_data]]></property>
+                <property name="awsregion"><![CDATA[us-east-1]]></property>
+                <property name="sharditeratortype"><![CDATA[latest]]></property>
+              </properties>
+            </connector>
+          </connectors>
+        </window-source>
+        <window-functional index="pi_EMPTY" name="Functional">
+          <schema>
+            <fields>
+              <field name="New_Field_1" type="int64" key="true"/>
+              <field name="timestamp" type="int64"/>
+              <field name="temperature" type="double"/>
+              <field name="humidity" type="double"/>
+            </fields>
+          </schema>
+        </window-functional>
+      </windows>
+      <edges>
+        <edge source="Source" target="Functional"/>
+      </edges>
+    </contquery>
+  </contqueries>
+</project>
